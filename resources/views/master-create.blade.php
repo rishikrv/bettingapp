@@ -1,0 +1,338 @@
+@extends('layouts.master')
+
+@section('css')
+<link rel="stylesheet" href="{{ URL::asset('plugins/summernote/summernote-bs4.css') }}" />
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
+@section('breadcrumb')
+<div class="col-sm-6">
+    <h4 class="page-title">Create New Agent</h4>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0);">Master Details</a></li>
+        <li class="breadcrumb-item"><a href="agent.php">Super Agent Details</a></li>
+        <li class="breadcrumb-item"><a href="create-new-agent"> Create New Agent </a></li>
+        <li class="agent-detail">Back</li>
+    </ol>
+</div>
+@endsection
+
+@section('content')
+
+<body>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                </div>
+            </div>
+
+            <form action="master-create" method="POST">
+                @csrf
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="mt-0 header-title">Create New master</h4>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Master</label>
+                                                <div class="col-sm-5">
+
+                                                    <select id="getid" name="super_master_id" value="super_master_id" class="form-control">
+                                                        <option value="">Select</option>
+                                                        @foreach($SMName as $SM)
+                                                        <option id="id" value="{{ $SM->id }}">
+                                                            {{ $SM->super_master_name }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="code" class="col-lg-3 col-form-label">Code</label>
+                                                <div class="col-lg-5">
+                                                    <input id="code" name="master_code" type="text" class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="name" class="col-lg-3 col-form-label">Name</label>
+                                                <div class="col-lg-5">
+                                                    <input id="name" name="master_name" type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h5>My Limit</h5>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="reference" class="col-lg-3 col-form-label">Reference</label>
+                                                <div class="col-lg-5">
+                                                    <input id="reference" name="master_reference" type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div id="div_refresh">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label for="current_Limit" class="col-lg-3 col-form-label">Current limit</label>
+                                                    <div class="col-lg-5">
+                                                        <input id="master_curr_limit" name="master_curr_limit" type="number" class="form-control" min="1" max="10000000" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- </div>
+                                            <div class="row"> -->
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label for="rem_Limit" class="col-lg-3 col-form-label">Rem Limit</label>
+                                                    <div class="col-lg-5">
+                                                        <input id="super_master_rem_limit" name="super_master_curr_limit" type="text" class="form-control" readonly>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label for="contact" class="col-lg-3 col-form-label">Contact No.</label>
+                                                    <div class="col-lg-5">
+                                                        <input id="master_contact_num" name="master_contact_num" type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label for="password" class="col-lg-3 col-form-label">Password</label>
+                                                    <div class="col-lg-5">
+                                                        <input id="master_password" name="master_password" type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </fieldset>
+
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5>Master Share</h5>
+                                            <div class="form-group row">
+                                                <label for="share2" class="col-lg-3 col-form-label">Share %</label>
+                                                <div class="col-lg-5">
+                                                    <input id="master_share"  data-parsley-max="" name="master_share" type="number" class="form-control" min="1" max="500" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- </div>
+
+                                            <div class="row"> -->
+                                        <div class="col-md-6">
+                                            <h5>My Share</h5>
+                                            <div class="form-group row">
+                                                <label for="share2" class="col-lg-3 col-form-label">Share %</label>
+                                                <div class="col-lg-5">
+                                                    <input id="super_master_share" name="super_master_share" type="number" class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5>Master Mobile Share</h5>
+                                            <div class="form-group row">
+                                                <label for="share2" class="col-lg-3 col-form-label">Mobile Share %</label>
+                                                <div class="col-lg-5">
+                                                    <input id="master_mob_share" name="master_mob_share" type="number" class="form-control" min="0" max="500">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- </div>
+
+                                            <div class="row"> -->
+                                        <div class="col-md-6">
+                                            <h5>My Mobile Share</h5>
+                                            <div class="form-group row">
+                                                <label for="share2" class="col-lg-3 col-form-label">Mobile Share %</label>
+                                                <div class="col-lg-5">
+                                                    <input id="super_master_mob_share" name="super_master_mob_share" type="text" class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5>Master Commission</h5>
+                                            <div class="form-group row">
+                                                <label for="Commission_Type" class="col-lg-3 col-form-label">Session Commission Type</label>
+                                                <div class="col-lg-5">
+                                                    <select id="master_com_type" name="master_com_type" class="form-control">
+                                                        <option value="">--Please Select--</option>
+                                                        <option value="No Commission">No Commission</option>
+                                                        <option value="Only On Minus">Only On Minus</option>
+                                                        <option value="Bet By Bet">Bet By Bet</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5>My Commission</h5>
+                                            <div class="form-group row">
+                                                <label for="session_Commission_Type" class="col-lg-3 col-form-label">Session Commission Type</label>
+                                                <div class="col-lg-5">
+                                                    <input id="super_master_com_type" name="super_master_com_type" class="form-control" readonly>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="match_Commission" class="col-lg-3 col-form-label">Match Commisssion</label>
+                                                <div class="col-lg-5">
+                                                    <input id="master_match_com" name="master_match_com" type="number" class="form-control" min="0" max="500">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="match_Commission" class="col-lg-3 col-form-label">Match Commission</label>
+                                                <div class="col-lg-5">
+                                                    <input id="super_master_match_com" name="super_master_match_com" type="text" class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="session_Commission" class="col-lg-3 col-form-label">Session Commision</label>
+                                                <div class="col-lg-5">
+                                                    <input id="master_sess_com" name="master_sess_com" type="number" class="form-control" min="0" max="500">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="session_Commission" class="col-lg-3 col-form-label">Session Commission</label>
+                                                <div class="col-lg-5">
+                                                    <input id="super_master_sess_com" name="super_master_sess_com" type="text" class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+
+                            <div class="form-group">
+                                <div>
+                                    <button type="submit" onclick="myFunction()" class="btn btn-primary waves-effect waves-light">
+                                        Submit
+                                    </button>
+                                    <button type="reset" class="btn btn-secondary waves-effect m-l-5">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </form>
+    </div>
+    </div>
+
+    <script src=//code.jquery.com/jquery-3.5.1.min.js integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin=anonymous>
+    </script>
+
+    <script type=text/javascript>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $(document).ready(function() {
+
+            $("#getid").change(function() {
+                var SMasterId = $('#getid').val();
+
+                // alert("getid");
+
+                if (SMasterId > 0) {
+                    fetchRecords(SMasterId);
+                }
+
+            });
+        });
+
+        function fetchRecords(id) {
+            // alert("id");
+            $.ajax({
+                url: 'master-create/' + id,
+                type: 'get',
+                dataType: 'json',
+                success: function(data) {
+                    // alert("data");
+                    // var_dump(data);
+                    console.log(data[0].super_master_curr_limit);
+                    $('#super_master_rem_limit').val(data[0].super_master_curr_limit);
+                    $("#super_master_share").val(data[0].super_master_share);
+                    $("#super_master_mob_share").val(data[0].super_master_mob_share);
+                    $("#super_master_com_type").val(data[0].super_master_com_type);
+                    $("#super_master_match_com").val(data[0].super_master_match_com);
+                    $("#super_master_sess_com").val(data[0].super_master_sess_com);
+                }
+
+            });
+
+        }
+    </script>
+    <script>
+        function myFunction() {
+            var Share = document.getElementById("super_master_rem_limit").value;
+            document.getElementById("master_curr_limit").max = Share;
+
+            var Share = document.getElementById("super_master_share").value;
+            document.getElementById("master_share").max = Share;
+
+            var MobShare = document.getElementById("super_master_mob_share").value;
+            document.getElementById("master_mob_share").max = MobShare;
+
+            var MatchCom = document.getElementById("super_master_match_com").value;
+            document.getElementById("master_match_com").max = MatchCom;
+
+            var SessCom = document.getElementById("super_master_sess_com").value;
+            document.getElementById("master_sess_com").max = SessCom;
+        }
+    </script>
+</body>
+@endsection
